@@ -5,7 +5,7 @@
 
 ## Banckend
 Java (using Springboot framework), 
-Python (data analysis purpose)
+Python (data analysis purpose) throught *Jython*
 
 ## Frontend
 Javscript
