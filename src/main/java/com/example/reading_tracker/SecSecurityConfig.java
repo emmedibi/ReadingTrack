@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -58,6 +60,7 @@ public class SecSecurityConfig {
                                 .loginProcessingUrl("/login")           // the URL to submit the username and password to
                                 .defaultSuccessUrl("/index")  // the landing page after a successful login
                                 .permitAll()
+                                .successHandler(new MySimpleUrlAuthenticationSuccessHandler())
                 )
                 .logout( (logout) ->
                         logout
@@ -108,4 +111,8 @@ public class SecSecurityConfig {
         return filterRegistrationBean;
     }
 
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new MySimpleUrlAuthenticationSuccessHandler();
+    }
 }

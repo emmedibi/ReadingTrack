@@ -244,6 +244,8 @@
     <div class="column" id="column_one">
         <h2>Your TBR</h2>
         <button class="button" style="vertical-align:middle"><span>Add a Book </span></button>
+        <span sec:authentication="name">Utente</span>
+        <span th:text="${email}">Surname</span>
     </div>
     <div class="column" id="column_two">
         <h2>Books you are reading</h2>
