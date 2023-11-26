@@ -59,7 +59,7 @@ public class SecSecurityConfig {
                                 .defaultSuccessUrl("/index")  // the landing page after a successful login
                                 .permitAll()
                 )
-                .logout( logout ->
+                .logout( (logout) ->
                         logout
                                 .logoutUrl("/perform_logout")
                                 .logoutSuccessUrl("/login")

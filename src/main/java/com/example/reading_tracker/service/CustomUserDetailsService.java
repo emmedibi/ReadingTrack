@@ -53,7 +53,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findUserByUsername(usernameOrEmail);
         if (user != null) {
             // ritorna un oggetto User del package UserDetails che permette la gestione dell'autenticazione dell'utente.
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+            UserDetails user_load = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+            return user_load;
         } else {
             throw new UsernameNotFoundException("User not found");
         }
@@ -138,51 +139,6 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     public List<User> findAllPatients(Integer roleId) {
         return userRepository.findUsersByRolesId(roleId);
-    }
-
-
-    /**
-     * Recupera l'oggetto User con ruolo ROLE_NURSE, in base ad una variabile di tipo Stringa,
-     * chiamata Username.
-     * @param username parametro per la ricerca. E' lo username con cui è stato registrato un utente.
-     * @return l'oggetto User, se trovato.
-     * @throws UsernameNotFoundException nel caso la ricerca dia esito negativo e non si trovi nessun oggetto di tipo
-     *                                   User con ruolo ROLE_NURSE
-     */
-    public User findNurseByUsername(String username) throws UsernameNotFoundException {
-        User nurse = userRepository.findUserByUsername(username);
-        // Se il risultato della ricerca nel database è diverso da null, allora verifica che il ruolo
-        // dello user estratto sia NURSE
-        if (nurse != null) {
-            for (Role r : nurse.getRoles()) {
-                if (r.getName().equals("ROLE_NURSE")) {
-                    return nurse;
-                } else throw new UsernameNotFoundException(("Infermiere non trovato con questo username"));
-            }
-        }
-        return nurse;
-    }
-
-    /**
-     * Recupera l'oggetto User con ruolo ROLE_DOCTOR, in base ad una variabile di tipo Stringa,
-     * chiamata Username.
-     * @param username parametro per la ricerca. E' lo username con cui è stato registrato un utente.
-     * @return l'oggetto User, se trovato.
-     * @throws UsernameNotFoundException nel caso la ricerca dia esito negativo e non si trovi nessun oggetto di tipo
-     *                                   * User con ruolo ROLE_DOCTOR
-     */
-    public User findDoctorByUsername(String username) throws UsernameNotFoundException {
-        User doctor = userRepository.findUserByUsername(username);
-        if (doctor != null) {
-            // Se il risultato della ricerca nel database è diverso da null, allora verifica che il ruolo
-            // dello user estratto sia DOCTOR
-            for (Role r : doctor.getRoles()) {
-                if (r.getName().equals("ROLE_DOCTOR")) {
-                    return doctor;
-                } else throw new UsernameNotFoundException(("Dottore non trovato con questo username"));
-            }
-        }
-        return doctor;
     }
 
     /**
