@@ -66,8 +66,8 @@ public class WebController {
 
         return "index.html";
     }
-
     @GetMapping("/user/allTheLibraries.html")
     public String showAllTheUserLibraries(){return "/user/allTheLibraries.html";}
+
 
 }

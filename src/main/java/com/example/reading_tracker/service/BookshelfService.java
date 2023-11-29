@@ -16,4 +16,8 @@ public class BookshelfService {
     public List<Bookshelf> findAllByUser(Long userId){
         return bookshelfRepository.findAllByUserId(userId);
     }
+
+    public Bookshelf save(Bookshelf bookshelf){
+        return bookshelfRepository.save(bookshelf);
+    }
 }

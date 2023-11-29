@@ -86,7 +86,7 @@
     </thead>
     <tr th:each="library : ${libraries}">
       <td th:text="${library.name}">Library name</td>
-      <td th:text="${library.isExclusive}">Library exclusive</td>
+      <td th:text="${library.exclusive}">Library exclusive</td>
       <td th:text="${library.name}">Number of books presents inside</td>
       <td><a th:href="@{'user/library/' + ${library.id}}" th:fileName="${library.id}" id="btnCheck"
              title="Open the library">Apri</a>
@@ -98,9 +98,9 @@
   <span>Nessuna libreria trovata</span>
 </div>
 <h1>Crea una nuova categoria di esame</h1>
-<form th:action="@{/user/libraries/addLibrary}" method="post">
+<form th:action="@{/user/addLibrary}" method="post">
   <label for="title">Titolo libreria</label>:
-  <input class="textInput" type="text" id="title" name="libraryTitle" autofocus="autofocus" /> <br />
+  <input class="textInput" type="text" id="title" name="name" autofocus="autofocus" /> <br />
     <span>La libreria è esclusiva?:</span>
     <input type="radio" id="yes_exclusive" name="exclusive" value="true" checked>
     <label for="yes_exclusive">Yes</label>

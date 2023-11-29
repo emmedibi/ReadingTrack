@@ -1,5 +1,6 @@
 package com.example.reading_tracker.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class Bookshelf {
     @JoinTable( name= "bookshelf_book",
             joinColumns = @JoinColumn(name = "bookshelf_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @JsonIgnore
     private Collection<Book> books;
 
     @ManyToOne
