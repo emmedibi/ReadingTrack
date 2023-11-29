@@ -167,7 +167,7 @@
   padding: 6px 10px;
   margin-top: 8px;
   margin-right: 300px;
-  background: #ddd;
+  background: #dab49d;
   font-size: 17px;
   border: none;
   cursor: pointer;
@@ -211,7 +211,7 @@
             <a href="#">Read books</a>
             <a href="#">Currently Reading</a>
             <a href="#">To read</a>
-            <a href="#">Other libraries</a>
+            <a href="user/allTheLibraries">Other Libraries</a>
         </div>
     </div>
     <a href="#reading_test">Reading Test</a>
@@ -244,8 +244,6 @@
     <div class="column" id="column_one">
         <h2>Your TBR</h2>
         <button class="button" style="vertical-align:middle"><span>Add a Book </span></button>
-        <span sec:authentication="name">Utente</span>
-        <span th:text="${email}">Surname</span>
     </div>
     <div class="column" id="column_two">
         <h2>Books you are reading</h2>

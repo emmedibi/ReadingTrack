@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>All the Libraries</title>
+</head>
+<style>
+  body {
+		margin-left : 30px;
+		font-family: Garamond, serif;
+		background: #f3e9dc;
+	}
+  .error {
+    color: red;
+  }
+#librariesTable {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+#librariesTable td, #librariesTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#librariesTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#librariesTable tr:hover {background-color: #ddd;}
+
+#librariesTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  color: black;
+}
+
+.button {
+          font-family: Garamond, serif;
+          display: inline-block;
+          border-radius: 4px;
+          background-color: #c08552;
+          border: none;
+          color: #FFFFFF;
+          text-align: center;
+          font-size: 28px;
+          padding: 20px;
+          width: 200px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin: 5px;
+    }
+    .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+    }
+    .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+    }
+    .button:hover span {
+          padding-right: 25px;
+    }
+    .button:hover span:after {
+          opacity: 1;
+          right: 0;
+    }
+</style>
+<body>
+<h1>Le tue librerie</h1>
+<div th:if="${libraries.size() > 0}">
+
+  <table id="librariesTable">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Exclusive</th>
+      <th scope="col">Number of books presents </th>
+      <th scope="col">Action </th>
+    </tr>
+    </thead>
+    <tr th:each="library : ${libraries}">
+      <td th:text="${library.name}">Library name</td>
+      <td th:text="${library.isExclusive}">Library exclusive</td>
+      <td th:text="${library.name}">Number of books presents inside</td>
+      <td><a th:href="@{'user/library/' + ${library.id}}" th:fileName="${library.id}" id="btnCheck"
+             title="Open the library">Apri</a>
+      </td>
+    </tr>
+  </table>
+</div>
+<div th:unless="${libraries.size() > 0}">
+  <span>Nessuna libreria trovata</span>
+</div>
+<h1>Crea una nuova categoria di esame</h1>
+<form th:action="@{/user/libraries/addLibrary}" method="post">
+  <label for="title">Titolo libreria</label>:
+  <input class="textInput" type="text" id="title" name="libraryTitle" autofocus="autofocus" /> <br />
+    <span>La libreria è esclusiva?:</span>
+    <input type="radio" id="yes_exclusive" name="exclusive" value="true" checked>
+    <label for="yes_exclusive">Yes</label>
+    <input type="radio" id="no_exclusive" name="exclusive" value="false" checked>
+    <label for="no_exclusive">No</label>
+    <br>
+  <input type="submit" name="action" value="Submit" />
+</form>
+<br>
+<div    class="error"
+        th:if="${message != null}" role="alert">
+  [[${message}]]
+</div>
+<br>
+  <div class="HomePageBtn">
+    <a href="/index">
+    <button class="button" style="vertical-align:middle"><span>HomePage </span></button>
+    </a>
+  </div>
+</body>
+</html>
