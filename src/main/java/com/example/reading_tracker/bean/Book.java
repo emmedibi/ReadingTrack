@@ -4,10 +4,7 @@ import com.example.reading_tracker.enumeration.Lang;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -37,18 +34,15 @@ public class Book {
     @Size(min=1)
     private String author_surname;
 
-    @Column(name = "publisher")
-    @NotEmpty(message = "Entity name must be provided.")
-    @Size(min=1)
-    private String publisher;
-
     @Column(name = "number_of_pages")
-    @NotEmpty(message = "Entity name must be provided.")
+    @NotNull()
     @Min(0)
     private int number_of_pages;
 
     @Column(name = "language")
-    private Lang language;
+    @Min(0)
+    @Max(1)
+    private int language;
 
     @Column(name = "image_path")
     @Size(min=1)
@@ -59,7 +53,7 @@ public class Book {
     private Boolean is_already_published;
 
     @Column(name = "price")
-    @NotEmpty(message = "Entity name must be provided.")
+    @NotNull()
     @Min(0)
     private float price;
 
@@ -82,6 +76,9 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "saga_id")
     private Saga saga;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable( name= "book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -95,9 +92,9 @@ public class Book {
     private Collection<Bookshelf> bookshelves;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable( name= "book_tag",
+    @JoinTable( name= "book_tags",
             joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+            inverseJoinColumns = @JoinColumn(name = "tags_id"))
     private Collection<Tag> tags;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -142,14 +139,6 @@ public class Book {
         this.author_surname = author_surname;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
     public int getNumber_of_pages() {
         return number_of_pages;
     }
@@ -158,11 +147,11 @@ public class Book {
         this.number_of_pages = number_of_pages;
     }
 
-    public Lang getLanguage() {
+    public int getLanguage() {
         return language;
     }
 
-    public void setLanguage(Lang language) {
+    public void setLanguage(int language) {
         this.language = language;
     }
 
@@ -190,4 +179,84 @@ public class Book {
         this.price = price;
     }
 
+    public LocalDate getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(LocalDate release_date) {
+        this.release_date = release_date;
+    }
+
+    public LocalDate getStart_reading_date() {
+        return start_reading_date;
+    }
+
+    public void setStart_reading_date(LocalDate start_reading_date) {
+        this.start_reading_date = start_reading_date;
+    }
+
+    public LocalDate getEnd_reading_date() {
+        return end_reading_date;
+    }
+
+    public void setEnd_reading_date(LocalDate end_reading_date) {
+        this.end_reading_date = end_reading_date;
+    }
+
+    public Saga getSaga() {
+        return saga;
+    }
+
+    public void setSaga(Saga saga) {
+        this.saga = saga;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public Collection<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Collection<Genre> genres) {
+        this.genres = genres;
+    }
+
+
+    public Collection<Bookshelf> getBookshelves() {
+        return bookshelves;
+    }
+
+    public void setBookshelves(Collection<Bookshelf> bookshelves) {
+        this.bookshelves = bookshelves;
+    }
+
+    public Collection<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Collection<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
 
     List<Bookshelf> findAllByUserId(Long userId);
+    Bookshelf findByName(String bookshelf_name);
 }

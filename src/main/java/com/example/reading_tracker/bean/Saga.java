@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.Collection;
@@ -17,15 +18,15 @@ public class Saga {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "saga_name")
+    @Column(name = "name")
     @NotEmpty(message = "Entity name must be provided.")
     @Size(min=1)
-    private String saga_name;
+    public String name;
 
-    @Column(name = "saga_volume")
-    @NotEmpty(message = "Entity name must be provided.")
+    @Column(name = "volumes")
+    @NotNull()
     @Min(1)
-    private int saga_volume;
+    private int volumes;
 
     @OneToMany(mappedBy = "saga", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -39,19 +40,19 @@ public class Saga {
 
 
     public String getSaga_name() {
-        return saga_name;
+        return name;
     }
 
     public void setSaga_name(String saga_name) {
-        this.saga_name = saga_name;
+        this.name = saga_name;
     }
 
     public int getSaga_volume() {
-        return saga_volume;
+        return volumes;
     }
 
     public void setSaga_volume(int saga_volume) {
-        this.saga_volume = saga_volume;
+        this.volumes = saga_volume;
     }
 
     public List<Book> getBooks() {

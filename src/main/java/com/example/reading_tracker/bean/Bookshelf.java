@@ -25,10 +25,7 @@ public class Bookshelf {
     @NotNull
     private Boolean exclusive;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable( name= "bookshelf_book",
-            joinColumns = @JoinColumn(name = "bookshelf_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @OneToMany(mappedBy = "bookshelves", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Collection<Book> books;
 

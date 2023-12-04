@@ -9,7 +9,6 @@ import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -28,6 +26,7 @@ public class BookshelfController {
     BookshelfService bookshelfService;
     CustomUserDetailsService customUserDetailsService;
 
+    // Contructor
     public BookshelfController(BookshelfService bookshelfService, CustomUserDetailsService customUserDetailsService) {
         this.bookshelfService = bookshelfService;
         this.customUserDetailsService = customUserDetailsService;
@@ -35,14 +34,13 @@ public class BookshelfController {
 
     @GetMapping("user/allTheLibraries")
     public String getAllTheUserLibraries(Principal principal, Model model){
-        String message = "";
         try {
             User user = customUserDetailsService.findByUsername(principal.getName());
             List<Bookshelf> bookshelves= bookshelfService.findAllByUser(user.getId());
             model.addAttribute("libraries", bookshelves);
             System.out.println("Valore libraries: " + bookshelves.size());
         } catch (Exception e){
-            message = "Errore";
+            String message = "Errore";
             model.addAttribute("message", message);
             return "/user/allTheLibraries.html";
         }
@@ -51,9 +49,7 @@ public class BookshelfController {
 
     @PostMapping("user/addLibrary")
     public String addLibrary(Model model, @Valid @ModelAttribute("bookshelf") Bookshelf bookshelf, BindingResult bookshelfBindingResult, Principal principal){
-        String message = "";
         List<String> errorMessagesToShow = new ArrayList<>();
-        String errorFromFromData = null;
         /*RACCOLTA DEGLI ERRORI DI VALIDAZIONE
         GLI ERRORI VENGONO MOSTRATI A SCHERMO TRAMITE LA LISTA errorMessagesToShow
         CHE RACCOGLIE IL CAMPO NON VALIDO (error.getField()) E IL MESSAGGIO DI ERRORE (error.getDefaultMessage())*/
@@ -68,7 +64,7 @@ public class BookshelfController {
                 // Recupero il messaggio relativo alla mancata validità del dato
                 String errorMessage = (error).getDefaultMessage();
                 // Costruisco una stringa con i appena ottenuti
-                errorFromFromData = "The data referred to the field " + fieldErrors + " is not valid: " + errorMessage; // Costruisco una stringa con i dati utili
+                String errorFromFromData = "The data referred to the field " + fieldErrors + " is not valid: " + errorMessage; // Costruisco una stringa con i dati utili
                 // Inserisco la stringa in una lista
                 errorMessagesToShow.add(errorFromFromData);
             }
@@ -82,21 +78,21 @@ public class BookshelfController {
             System.out.println(bookshelf.getName());
             bookshelf.setUser(user);
             bookshelfService.save(bookshelf);
-            message = "The new bookshelf " + bookshelf.getName().toUpperCase() +  " is created";
+            String message = "The new bookshelf " + bookshelf.getName().toUpperCase() +  " is created";
             model.addAttribute("message", message);
             List<Bookshelf> bookshelves= bookshelfService.findAllByUser(user.getId());
             model.addAttribute("libraries", bookshelves);
             System.out.println("Valore libraries: " + bookshelves.size());
         } catch(NullPointerException e){
-            message = e.getMessage();
+            String message = e.getMessage();
             model.addAttribute("message", message);
         } catch(ValidationException e){
-            errorFromFromData = e.getMessage();
+            String errorFromFromData = e.getMessage();
             errorMessagesToShow.add(errorFromFromData);
             model.addAttribute("errorMessages", errorMessagesToShow);
         }
         catch (Exception e) {
-            message = "Could not save the bookshelf ";
+            String message = "Could not save the bookshelf ";
             model.addAttribute("message", message);
         }
         // indirizzo pagina che verrà visualizzata

@@ -5,27 +5,27 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Tags")
-public class Tag {
+@Table(name = "Publisher")
+public class Publisher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "tag_name")
+    @Column(name = "name")
     @NotEmpty(message = "Entity name must be provided.")
     @Size(min=1)
-    public String name;
+    private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<Book> books;
+    private List<Book> books;
 
-    // GETTER AND SETTER
     public Long getId() {
         return id;
     }
@@ -34,19 +34,19 @@ public class Tag {
         this.id = id;
     }
 
-    public String getTag_name() {
+    public String getName() {
         return name;
     }
 
-    public void setTag_name(String tag_name) {
-        this.name = tag_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }

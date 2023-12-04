@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,25 +20,13 @@ public class Genre {
     @Column(name = "name")
     @NotEmpty(message = "Entity name must be provided.")
     @Size(min=1)
-    private String genre_name;
+    public String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "genres")
-    @JsonIgnore
-    private Set<Saga> saga = new HashSet<>();
+    @ManyToMany(mappedBy = "genres")
+    private Set<Saga> saga;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "genres")
-    @JsonIgnore
-    private Set<Book> books = new HashSet<>();
+    @ManyToMany(mappedBy = "genres")
+    private Set<Book> books;
 
     public Set<Saga> getSaga() {
         return saga;
@@ -56,11 +45,11 @@ public class Genre {
     }
 
     public String getGenre_name() {
-        return genre_name;
+        return name;
     }
 
     public void setGenre_name(String genre_name) {
-        this.genre_name = genre_name;
+        this.name = genre_name;
     }
 
     public Long getId() {

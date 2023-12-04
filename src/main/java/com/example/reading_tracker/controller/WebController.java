@@ -69,5 +69,7 @@ public class WebController {
     @GetMapping("/user/allTheLibraries.html")
     public String showAllTheUserLibraries(){return "/user/allTheLibraries.html";}
 
+    @GetMapping("/book/newBookForm.html")
+    public String bookForm(){return "/book/newBookForm.html";}
 
 }
