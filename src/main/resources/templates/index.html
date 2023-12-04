@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
 	body {
-		margin-left : 30px;
 		font-family: Garamond, serif;
 		background: #f3e9dc;
 	}
@@ -23,8 +22,6 @@
 	}
 	.logout {
 		font-family: Garamond, serif;
-		padding-top: 13px;
-		margin-left: 95%;
 	}
 	* {
         box-sizing: border-box;
@@ -84,6 +81,18 @@
       background-color: #f3e9dc;
       overflow: hidden;
       font-weight: bold;
+      box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    }
+    .topbar {
+      background-color: #5e3023;
+      overflow: hidden;
+      font-weight: bold;
+      width: 100%;
+      padding: 13px;
+      box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    }
+    .topbar_title {
+    color: #f3e9dc;
     }
     /* Style the links inside the navigation bar */
     .topnav a {
@@ -148,11 +157,16 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
-  .topnav input[type=text] {
-    border: 1px solid #ccc;
-  }
-  .topnav .search-container {
+
+<!--  .topnav .search-container {
   float: right;
+}-->
+
+input[type="submit"] {
+    margin-left: 25%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
 }
 
 .topnav input[type=text] {
@@ -167,7 +181,7 @@
   padding: 6px 10px;
   margin-top: 8px;
   margin-right: 300px;
-  background: #ddd;
+  background: #dab49d;
   font-size: 17px;
   border: none;
   cursor: pointer;
@@ -190,6 +204,11 @@
     padding: 14px;
   }
 
+  .topnav input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+
     </style>
     <meta charset="ISO-8859-1">
     <title>Welcome Page</title>
@@ -201,6 +220,9 @@
         <input type="submit" value="Logout"/>
     </form>
 </div>-->
+<div class="topbar">
+    <div class="topbar_title">TOP BAR TITLE</div>
+</div>
 <div class="topnav">
     <a class="active">READING TRACKER</a>
     <div class="dropdown">
@@ -211,7 +233,7 @@
             <a href="#">Read books</a>
             <a href="#">Currently Reading</a>
             <a href="#">To read</a>
-            <a href="#">Other libraries</a>
+            <a href="user/allTheLibraries">Other Libraries</a>
         </div>
     </div>
     <a href="#reading_test">Reading Test</a>
@@ -228,17 +250,33 @@
             <a href="#">TAG</a>
         </div>
     </div>
+    <div class="dropdown">
+        <button class="dropbtn">My Account
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="#">LANGUAGE</a>
+            <a href="#">LIBRARY</a>
+            <a href="#">PUBLISHER</a>
+            <a href="#">TAG</a>
+            <div class="logout_in_menu">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Logout" />
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="search-container">
         <form action="/action_page">
             <input type="text" placeholder="Search.." name="search">
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
     </div>
-    <div class="logout" sec:authorize="isAuthenticated()" align="right">
+<!--    <div class="logout" sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
         </form>
-    </div>
+    </div>-->
 </div>
 <div class="row">
     <div class="column" id="column_one">
@@ -251,10 +289,23 @@
     </div>
     <div class="column" id="column_three">
         <h2>New Books</h2>
+        <a href="/book/newBookForm">
         <button class="button" style="vertical-align:middle"><span>Add a Book </span></button>
+        </a>
     </div>
 </div>
-<br>
+<div
+        th:if="${message != null}"
+        class="alert"
+        role="alert">
+    [[${message}]]
+</div>
+
+<div    class="error"
+        th:if="${errorMessages != null}"
+        th:each="errorMessage : ${errorMessages}"
+        role="alert">
+    [[${errorMessage}]]
 </div>
 </body>
 </html>

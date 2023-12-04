@@ -2,53 +2,45 @@ package com.example.reading_tracker.bean;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails extends User {
 
     private User user;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(String username, String password,
+                             Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
+
+    //for example lets add some person data
+    private String firstName;
+    private String lastName;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 
-    /**
-     * Gestione dell'autenticazione tramite GrantedAuthority
-     * @return
-     */
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUsername();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

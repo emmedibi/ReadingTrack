@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>All the Libraries</title>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body {
+		margin-left : 30px;
+		font-family: Garamond, serif;
+		background: #f3e9dc;
+	}
+  .error {
+    color: red;
+  }
+#librariesTable {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+#librariesTable td, #librariesTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#librariesTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#librariesTable tr:hover {background-color: #ddd;}
+
+#librariesTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  color: black;
+}
+
+.button {
+          font-family: Garamond, serif;
+          display: inline-block;
+          border-radius: 4px;
+          background-color: #c08552;
+          border: none;
+          color: #FFFFFF;
+          text-align: center;
+          font-size: 28px;
+          padding: 20px;
+          width: 200px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin: 5px;
+    }
+    .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+    }
+    .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+    }
+    .button:hover span {
+          padding-right: 25px;
+    }
+    .button:hover span:after {
+          opacity: 1;
+          right: 0;
+    }
+        /* Add a black background color to the top navigation */
+    .topnav {
+      background-color: #f3e9dc;
+      overflow: hidden;
+      font-weight: bold;
+    }
+    /* Style the links inside the navigation bar */
+    .topnav a {
+      float: left;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    /* Change the color of links on hover */
+    .topnav a:hover {
+      background-color: #dab49d;
+      color: black;
+    }
+    /* Add a color to the active/current link */
+    .topnav a.active {
+      background-color: #dab49d;
+      color: #5e3023;
+    }
+    .dropdown {
+  float: left;
+  overflow: hidden;
+}
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: black;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  font-weight: bold;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #dab49d;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f3e9dc;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #dab49d;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+  .topnav input[type=text] {
+    border: 1px solid #ccc;
+  }
+  .topnav .search-container {
+  float: right;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.topnav .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 300px;
+  background: #dab49d;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .search-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+</style>
+<body>
+<div class="topnav">
+  <a class="active">READING TRACKER</a>
+  <div class="dropdown">
+    <button class="dropbtn">Your Libraries
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Read books</a>
+      <a href="#">Currently Reading</a>
+      <a href="#">To read</a>
+      <a href="user/allTheLibraries">Other Libraries</a>
+    </div>
+  </div>
+  <a href="#reading_test">Reading Test</a>
+  <a href="#search_a_book">Advanced Search</a>
+  <div class="dropdown">
+    <button class="dropbtn">Filters
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">GENRE</a>
+      <a href="#">LANGUAGE</a>
+      <a href="#">LIBRARY</a>
+      <a href="#">PUBLISHER</a>
+      <a href="#">TAG</a>
+    </div>
+  </div>
+  <div class="search-container">
+    <form action="/action_page">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+<h1>Le tue librerie</h1>
+<div th:if="${libraries.size() > 0}">
+
+  <table id="librariesTable">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Exclusive</th>
+      <th scope="col">Number of books presents </th>
+      <th scope="col">Action </th>
+    </tr>
+    </thead>
+    <tr th:each="library : ${libraries}">
+      <td th:text="${library.name}">Library name</td>
+      <td th:text="${library.exclusive}">Library exclusive</td>
+      <td th:text="${library.name}">Number of books presents inside</td>
+      <td><a th:href="@{'user/library/' + ${library.id}}" th:fileName="${library.id}" id="btnCheck"
+             title="Open the library">Apri</a>
+      </td>
+    </tr>
+  </table>
+</div>
+<div th:unless="${libraries.size() > 0}">
+  <span>Nessuna libreria trovata</span>
+</div>
+<h1>Crea una nuova libreria</h1>
+<form th:action="@{/user/addLibrary}" method="post">
+  <label for="title">Titolo libreria</label>:
+  <input class="textInput" type="text" id="title" name="name" autofocus="autofocus" /> <br />
+    <span>La libreria è esclusiva?:</span>
+    <input type="radio" id="yes_exclusive" name="exclusive" value="true" checked>
+    <label for="yes_exclusive">Yes</label>
+    <input type="radio" id="no_exclusive" name="exclusive" value="false" checked>
+    <label for="no_exclusive">No</label>
+    <br>
+  <input type="submit" name="action" value="Submit" />
+</form>
+<br>
+<div    class="error"
+        th:if="${message != null}" role="alert">
+  [[${message}]]
+</div>
+<br>
+  <div class="HomePageBtn">
+    <a href="/index">
+    <button class="button" style="vertical-align:middle"><span>HomePage </span></button>
+    </a>
+  </div>
+</body>
+</html>
